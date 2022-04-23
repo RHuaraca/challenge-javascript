@@ -33,7 +33,9 @@ const {
 // < 16
 
 function exponencial(exp) {
-//vamos probando
+return function hija(parametro){
+        return Math.pow(parametro,exp);
+    }
 }
 
 // ----- Recursión -----
@@ -69,8 +71,30 @@ function exponencial(exp) {
 // haciendo los movimientos SUR->ESTE->NORTE
 // Aclaraciones: el segundo parametro que recibe la funcion ('direccion') puede ser pasado vacio (null)
 
-function direcciones(laberinto) {
-
+function direcciones(laberinto, camino = '') {
+    let direccion = laberinto;
+    if (typeof laberinto !== 'object') return '';
+    if (laberinto.N !== 'pared'){
+        camino += 'N';
+        if (direccion.N === 'destino')return camino;
+        else return direcciones(direccion.N, camino);
+    }
+    if (laberinto.S !== 'pared') {
+        camino += 'S';
+        if (direccion.S === 'destino') return camino;
+        else return direcciones(direccion.S, camino);
+    }
+    if (laberinto.E !== 'pared') {
+        camino += 'E';
+        if (direccion.E === 'destino') return camino;
+        else return direcciones(direccion.E, camino);
+    }
+    if (laberinto.O !== 'pared') {
+        camino += 'O';
+        if (direccion.O === 'destino') return camino;
+        else return direcciones(direccion.O, camino);
+    }
+    else return '';
 }
 
 
@@ -88,7 +112,14 @@ function direcciones(laberinto) {
 // deepEqualArrays([0,1,[[0,1,2],1,2]], [0,1,[[0,1,2],1,2]]) => true
 
 function deepEqualArrays(arr1, arr2) {
-
+    if(arr1.length !== arr2.length) return false;
+    for( let i = 0; i < arr1.length; i++){
+        if (typeof arr1[i] !== 'number' && typeof arr2[i] !== 'number'){
+            return deepEqualArrays(arr1[i], arr2[i]);
+        }
+        if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
 }
 
 
